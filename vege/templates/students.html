@@ -1,0 +1,60 @@
+{% extends "base.html "%}
+
+{% block start %}
+
+<a href="/">Home</a>
+<nav class="navbar bg-body-tertiary ">
+  <div class="container-fluid">
+    <form class="d-flex mb-4 mt-4 sticky-bottom" role="search">
+      <input class="form-control me-2" name="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"></th>
+        <th scope="col">Student Id</th>
+        <th scope="col">Student name</th>
+        <th scope="col">Student email</th>
+        <th scope="col">Student address</th>
+        <th scope="col">Student Department</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for student in queryset%}
+      <tr>
+        <th scope="row">{{forloop.counter}}<th>
+        <td>
+          <a href="{%url 'see_marks' student.student_id%}">{{student.student_id}}</a>
+        </td>
+        <td>{{student.student_name}}</td>
+        <td>{{student.student_email}}</td>
+        <td>{{student.student_address}}</td>
+        <td>{{student.department.department}}</td>
+      </tr>
+        {% endfor %}
+
+        <div class="pagination">
+          <span class="step-links">
+              {% if queryset.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ queryset.previous_page_number }}">previous</a>
+              {% endif %}
+      
+              <span class="current">
+                  Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+              </span>
+      
+              {% if queryset.has_next %}
+                  <a href="?page={{ queryset.next_page_number }}">next</a>
+                  <a href="?page={{ queryset.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+      </div>
+   
+
+{% endblock %}
